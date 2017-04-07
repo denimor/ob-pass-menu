@@ -13,8 +13,8 @@ if [ -n "${1}" ] ; then
 	PS_DIR="${1}/"
 fi
 
-TPL_MENU="<menu id='pass-%s' label='%s' execute='${0} \"${PS_DIR}%s\"' />\n";
-TPL_MENU_ITEM="<item label='%s'><action name='Execute'><command>${0} \"${PS_DIR}%s\"</command></action></item>\n";
+TPL_MENU="<menu id='pass-%s' label='%s' execute='${0} \"${PS_DIR}%s\"' />\n"
+TPL_MENU_ITEM="<item label='%s'><action name='Execute'><command>${0} \"${PS_DIR}%s\"</command></action></item>\n"
 
 echo '<?xml version="1.0" encoding="UTF-8"?><openbox_pipe_menu>'
 
@@ -29,4 +29,4 @@ for item in * ; do
 	fi
 done
 
-echo '</openbox_pipe_menu>';
+echo '</openbox_pipe_menu>'
