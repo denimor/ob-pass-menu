@@ -22,5 +22,5 @@ Installation
 Links
 -----
 
-*[Pass: The Standard Unix Password Manager](https://www.passwordstore.org/)
-*[Openbox menus documentation](http://openbox.org/wiki/Help:Menus#Pipe_menus)
+* [Pass: The Standard Unix Password Manager](https://www.passwordstore.org/)
+* [Openbox menus documentation](http://openbox.org/wiki/Help:Menus#Pipe_menus)
