@@ -3,18 +3,30 @@
 PREFIX="${PASSWORD_STORE_DIR:-$HOME/.password-store}"
 PS_DIR=''
 
-if [ -n "${1}" ] ; then
-	if [ -f "${PREFIX}/${1}" ] ; then
-		PASS_NAME=${1%%.gpg}
-		#~ pass show -c -- ${PASS_NAME}
-		pass show -- ${PASS_NAME} | xdotool type --clearmodifiers --file -
-		exit
-	fi
-	PS_DIR="${1}/"
-fi
+[ -n "${1}" ] && PS_DIR="${1}/"
 
-TPL_MENU="<menu id='pass-%s' label='%s' execute='${0} \"${PS_DIR}%s\"' />\n"
-TPL_MENU_ITEM="<item label='%s'><action name='Execute'><command>${0} \"${PS_DIR}%s\"</command></action></item>\n"
+#~ TYPE_CMD='xvkbd -file - 2>/dev/null'
+TYPE_CMD='xdotool type --clearmodifiers --file -'
+
+TPL_DIR_MENU="<menu id='pass-%s' label='%s' execute='${0} \"${PS_DIR}%s\"' />\n"
+TPL_FILE_MENU="<menu id='pass-%s' label='%s'>
+	<item label='Type _password'>
+		<action name='Execute'><command>
+			sh -c 'pass show -- %q | ${TYPE_CMD}'
+		</command></action>
+	</item>
+	<item label='Type _login and password'>
+		<action name='Execute'><command>
+			sh -c '(echo -ne %q ; pass show -- %q) | ${TYPE_CMD}'
+		</command></action>
+	</item>
+	<item label='_Copy password to clipboard'>
+		<action name='Execute'><command>
+			pass show -c -- %q ;
+		</command></action>
+	</item>
+</menu>\n"
+
 
 echo '<?xml version="1.0" encoding="UTF-8"?><openbox_pipe_menu>'
 
@@ -23,9 +35,10 @@ for item in * ; do
 	#~ LABEL=$(basename -s .gpg -- "${item}")
 	LABEL=${item%%.gpg}
 	if [ -d "${item}" ] ; then
-		printf "${TPL_MENU}" "${LABEL}" "${LABEL}" "${item}"
+		printf "${TPL_DIR_MENU}" "${LABEL}" "${LABEL}" "${item}"
 	elif [ -f "${item}" ] ; then
-		printf "${TPL_MENU_ITEM}" "${LABEL}" "${item}"
+		PS_NAME="${PS_DIR}${LABEL}"
+		printf "${TPL_FILE_MENU}" "${LABEL}" "${LABEL}" "${PS_NAME}" "${LABEL}\t" "${PS_NAME}" "${PS_NAME}"
 	fi
 done
 
