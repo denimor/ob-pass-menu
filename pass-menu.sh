@@ -32,11 +32,10 @@ echo '<?xml version="1.0" encoding="UTF-8"?><openbox_pipe_menu>'
 
 cd -- "${PREFIX}/${PS_DIR}"
 for item in * ; do
-	#~ LABEL=$(basename -s .gpg -- "${item}")
-	LABEL=${item%%.gpg}
 	if [ -d "${item}" ] ; then
-		printf "${TPL_DIR_MENU}" "${LABEL}" "${LABEL}" "${item}"
+		printf "${TPL_DIR_MENU}" "${item}" "${item}" "${item}"
 	elif [ -f "${item}" ] ; then
+		LABEL=${item%%.gpg}
 		PS_NAME="${PS_DIR}${LABEL}"
 		printf "${TPL_FILE_MENU}" "${LABEL}" "${LABEL}" "${PS_NAME}" "${LABEL}\t" "${PS_NAME}" "${PS_NAME}"
 	fi
