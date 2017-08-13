@@ -30,7 +30,7 @@ if [ -d "$PREFIX/$PS_PATH" ] ; then
 	cd -- "$PREFIX/$PS_PATH"
 	[ "$PS_PATH" ] && PS_PATH="$PS_PATH/"
 	for item in * ; do
-		printf "$TPL_DIR_MENU" "$item" "${item%.gpg}" "${PS_PATH}${item}"
+		printf "$TPL_DIR_MENU" "${PS_PATH}${item}" "${item%.gpg}" "${PS_PATH}${item}"
 	done
 else
 	PS_NAME="${PS_PATH%.gpg}"
