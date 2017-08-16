@@ -19,7 +19,7 @@ gen_xml() {
 		[[ $PS_PATH ]] && PS_PATH="$PS_PATH/"
 		for item in * ; do
 			LABEL=${item%.gpg}
-			OPT=$(echo -n "${PS_PATH}${LABEL}" | base64)
+			OPT=$(echo -n "${PS_PATH}${LABEL}" | base64 -w 0)
 			LABEL=$(escape "$LABEL")
 			echo "<menu id='$OPT' label='$LABEL' execute='$0 $OPT' />"
 		done
