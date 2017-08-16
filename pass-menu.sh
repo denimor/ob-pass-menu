@@ -33,16 +33,27 @@ gen_xml() {
 	echo '</openbox_pipe_menu>'
 }
 
+type_pass() {
+	if type xvkbd >/dev/null ; then
+		echo -n "$1" | xvkbd -file - 2>/dev/null
+		while [[ $2 ]] ; do
+			shift
+			xvkbd -text '\t' 2>/dev/null
+			echo -n "$1" | xvkbd -file - 2>/dev/null
+		done
+	else
+		IFS='	'
+		xdotool type --clearmodifiers "$*"
+	fi
+}
+
 
 if [[ $2 ]] ; then
 	PS_PATH=$(base64 -d <<< "$2")
 
-	#~ TYPE_CMD='xvkbd -file - 2>/dev/null'
-	TYPE_CMD='xdotool type --clearmodifiers --file -'
-
 	case "$1" in
-		   type) pass show -- "$PS_PATH" | $TYPE_CMD ;;
-		type_ex) (echo -n "${PS_PATH##*/}	" ; pass show -- "$PS_PATH") | $TYPE_CMD ;;
+		   type) type_pass "$(pass show -- "$PS_PATH")" ;;
+		type_ex) type_pass "${PS_PATH##*/}" "$(pass show -- "$PS_PATH")" ;;
 			clip) pass show -c -- "$PS_PATH" ;;
 	esac
 else
