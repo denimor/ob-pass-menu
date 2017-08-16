@@ -3,6 +3,7 @@
 escape() {
 	local s=${1//\&/&amp;}
 	s=${s//\'/&apos;}
+	s=${s//_/__}
 	echo "$s"
 }
 
